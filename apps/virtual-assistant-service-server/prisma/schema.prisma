@@ -1,0 +1,56 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Command {
+  commandName String?
+  createdAt   DateTime @default(now())
+  id          String   @id @default(cuid())
+  parameters  Json?
+  updatedAt   DateTime @updatedAt
+}
+
+model History {
+  commandRecord Json?
+  createdAt     DateTime  @default(now())
+  id            String    @id @default(cuid())
+  timestamp     DateTime?
+  updatedAt     DateTime  @updatedAt
+}
+
+model Task {
+  createdAt   DateTime        @default(now())
+  description String?
+  id          String          @id @default(cuid())
+  status      EnumTaskStatus?
+  taskName    String?
+  updatedAt   DateTime        @updatedAt
+}
+
+model User {
+  admin             Boolean?
+  createdAt         DateTime      @default(now())
+  email             String?       @unique
+  firstName         String?
+  id                String        @id @default(cuid())
+  lastName          String?
+  password          String
+  role              EnumUserRole?
+  roles             Json
+  subscriptionCount Int?
+  updatedAt         DateTime      @updatedAt
+  username          String        @unique
+}
+
+enum EnumTaskStatus {
+  Option1
+}
+
+enum EnumUserRole {
+  Option1
+}
